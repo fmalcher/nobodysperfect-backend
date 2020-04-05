@@ -12,27 +12,22 @@ dataService.createFileIfNotExists();
 app.use(express.static('./data'));
 
 app.post('/setquestion', (req, res, next) => {
-    const body = req.body;
-    console.log(body);
-    dataService.setQuestion(body.question);
+    dataService.setQuestion(req.body.question);
     res.sendStatus(200);
 });
 
 app.post('/setanswer', (req, res, next) => {
-    const body = req.body;
-    dataService.setAnswer(body.answer);
+    dataService.setAnswer(req.body.answer);
     res.sendStatus(200);
 });
 
 app.post('/setanswers', (req, res, next) => {
-    const body = req.body;
-    dataService.setAnswers(body.answers);
+    dataService.setAnswers(req.body.answers);
     res.sendStatus(200);
 });
 
 app.post('/setstate', (req, res, next) => {
-    const body = req.body;
-    dataService.setState(body.state);
+    dataService.setState(req.body.state);
     res.sendStatus(200);
 });
 
@@ -42,8 +37,8 @@ app.post('/reset', (req, res, next) => {
 });
 
 app.post('/chooseanswer', (req, res, next) => {
-    const body = req.body;
-    dataService.chooseAnswer(body.playerName, body.answerName);
+    const { playerName, answerName } = req.body;
+    dataService.chooseAnswer(playerName, answerName);
     res.sendStatus(200);
 });
 

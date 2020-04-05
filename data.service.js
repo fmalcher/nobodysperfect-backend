@@ -36,39 +36,39 @@ function reset() {
 
 function setAnswers(answers) {
     const data = readFile();
-    const d = { ...data, answers };
-    writeFile(d);
+    writeFile({ ...data, answers });
 }
 
 function setState(state) {
     const data = readFile();
-    const d = { ...data, state: parseInt(state, 10) };
-    writeFile(d);
+    writeFile({ ...data, state: parseInt(state, 10) });
 }
 
 function setAnswer(answer) {
     const data = readFile();
-    const answers = data.answers.filter(a => a.name !== answer.name);
-    answers.push(answer);
+    const answers = [
+        ...data.answers.filter(a => a.name !== answer.name),
+        answer
+    ];
     shuffleArray(answers);
-    const d = { ...data, answers };
-    writeFile(d);
+
+    writeFile({ ...data, answers });
 }
 
 function chooseAnswer(playerName, answerName) {
     const data = readFile();
-    const answers = data.answers;
-    const newAnswers = answers.map(a => {
+    const answers = data.answers.map(a => {
+        // remove player name from all answers
+        let answeredBy = (a.answeredBy || []).filter(n => n !== playerName);
+        
+        // add player name to chosen answer
         if (a.name === answerName) {
-            const answeredBy = (a.answeredBy || []).filter(n => n !== playerName);
-            return { ...a, answeredBy: [...answeredBy, playerName] }
-        } else {
-            return a;
+            answeredBy = [...answeredBy, playerName];
         }
+        return { ...a, answeredBy };
     });
 
-    const d = { ...data, answers: newAnswers };
-    writeFile(d);
+    writeFile({ ...data, answers });
 }
 
 function shuffleArray(array) {
@@ -77,6 +77,5 @@ function shuffleArray(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
-
 
 module.exports = { createFileIfNotExists, setState, setAnswers, setQuestion, setAnswer, reset, chooseAnswer };
