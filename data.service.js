@@ -34,9 +34,18 @@ function reset() {
     writeFile(d);
 }
 
+function resetFull() {
+    fs.copyFileSync(defaultDataFile, dataFile);
+}
+
 function setAnswers(answers) {
     const data = readFile();
     writeFile({ ...data, answers });
+}
+
+function setScore(score) {
+    const data = readFile();
+    writeFile({ ...data, score });
 }
 
 function setState(state) {
@@ -78,4 +87,4 @@ function shuffleArray(array) {
     }
 }
 
-module.exports = { createFileIfNotExists, setState, setAnswers, setQuestion, setAnswer, reset, chooseAnswer };
+module.exports = { createFileIfNotExists, setState, setAnswers, setQuestion, setAnswer, reset, resetFull, setScore, chooseAnswer };

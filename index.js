@@ -31,8 +31,18 @@ app.post('/setstate', (req, res, next) => {
     res.sendStatus(200);
 });
 
+app.post('/setscore', (req, res, next) => {
+    dataService.setScore(req.body.score);
+    res.sendStatus(200);
+});
+
 app.post('/reset', (req, res, next) => {
     dataService.reset();
+    res.sendStatus(200);
+});
+
+app.post('/resetfull', (req, res, next) => {
+    dataService.resetFull();
     res.sendStatus(200);
 });
 
